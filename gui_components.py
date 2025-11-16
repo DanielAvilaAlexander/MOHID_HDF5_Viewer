@@ -1647,11 +1647,13 @@ def make_vertical_section_window(
                  sg.Button('Reset', key='-VS_RESET_COLORS-', size=(10, 1))
              ],
              [
+                 sg.Text("Point Size:"),
+                 sg.Input('10', key='-P_SIZE-', size=(10, 1)),
                  sg.Text("Layer Vertical Exaggeration:"),
-                 sg.Input('1.0', key='-VS_VE-', size=(10, 1)),  # SEM enable_events
+                 sg.Input('1.0', key='-VS_VE-', size=(10, 1)),
                  sg.Button('Apply VE', key='-VS_APPLY_VE-', size=(10, 1)),
                  sg.Text("(MOHID Land only - Rebuilds depth grid)", font=("Helvetica", 9, "italic"), 
-                 key='-VS_VE_NOTE-')
+                 key='-VS_VE_NOTE-'),
              ]
              ], expand_x=True)],
 

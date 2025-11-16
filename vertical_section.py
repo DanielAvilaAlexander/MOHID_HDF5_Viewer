@@ -6,11 +6,11 @@ from typing import Dict, List, Tuple, Optional
 import numpy as np
 import numpy.typing as npt
 import matplotlib.pyplot as plt
-import matplotlib as mpl
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+#import matplotlib as mpl
+#from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import h5py
 
-from config import logger, UIConfig, DataConfig
+from config import logger   #, UIConfig, DataConfig
 
 
 def parse_geometry_file(geometry_path: str) -> Optional[Dict]:
@@ -301,7 +301,7 @@ def build_3d_depth_grid_land(
             if surface_elevation == 99 or np.isnan(surface_elevation):
                 continue
             
-            max_depth = max_soil_depth
+#            max_depth = max_soil_depth
             
             layer_idx = 0         
 
@@ -709,6 +709,7 @@ def plot_vertical_section(
     colormap: str = 'rainbow',
     vmin: float = None,
     vmax: float = None,
+    p_size: int = None,
     title: str = None,
     fig: plt.Figure = None,
     ax: plt.Axes = None,
@@ -727,6 +728,7 @@ def plot_vertical_section(
         colormap: Matplotlib colormap name
         vmin: Minimum value for color scale (None = auto)
         vmax: Maximum value for color scale (None = auto)
+        p_size: Point size to plot
         title: Plot title (None = auto-generate)
         fig: Existing figure (None = create new)
         ax: Existing axes (None = create new)
@@ -748,7 +750,10 @@ def plot_vertical_section(
         vmin = float(np.nanmin(section_data_masked))
     if vmax is None:
         vmax = float(np.nanmax(section_data_masked))
-    
+    print(p_size)
+    if p_size is None:
+        p_size = 10
+
     # Validate that vmin < vmax
     if not np.isfinite(vmin) or not np.isfinite(vmax) or vmax <= vmin:
         logger.warning(f"Invalid color limits: vmin={vmin}, vmax={vmax}, using defaults")
@@ -769,7 +774,8 @@ def plot_vertical_section(
 #            shading='auto',
 #            cmap=colormap,
 #            vmin=vmin,
-#            vmax=vmax
+#            vmax=vmax,
+#            p_size=p_size
 #        )        
         im = ax.scatter(
         coord_mesh, depth_mesh, 
@@ -777,7 +783,8 @@ def plot_vertical_section(
         cmap=colormap,
         vmin=vmin,
         vmax=vmax,
-        s=20  # tamanho dos pontos (ajuste conforme necessÃ¡rio)
+        s=p_size,  # points size (adjust as necessary)
+        marker='s'
         )
         
     except Exception as e:
@@ -849,6 +856,7 @@ def plot_section_with_bathymetry(
     colormap: str = 'viridis',
     vmin: float = None,
     vmax: float = None,
+    p_size: int = None,
     title: str = None,
     fig: plt.Figure = None,
     ax: plt.Axes = None,
@@ -869,6 +877,7 @@ def plot_section_with_bathymetry(
         colormap: Colormap name
         vmin: Min color value
         vmax: Max color value
+        p_size: Point size to plot
         title: Plot title
         model_type: 'MOHID Water' or 'MOHID Land' 
         vertical_exaggeration: Vertical scale multiplier
@@ -878,7 +887,7 @@ def plot_section_with_bathymetry(
     """
     fig, ax = plot_vertical_section(
     section_data, section_coord, section_depth,
-    var_name, coord_type, colormap, vmin, vmax, title,
+    var_name, coord_type, colormap, vmin, vmax, p_size, title,
     fig=fig, ax=ax,
     vertical_exaggeration=vertical_exaggeration
     )

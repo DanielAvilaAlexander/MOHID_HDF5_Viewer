@@ -43,7 +43,7 @@ from vertical_section import (
     load_3d_variable_timestep, extract_longitudinal_section,
     extract_latitudinal_section, plot_vertical_section,
     plot_section_with_bathymetry, plot_section_location_on_map,
-    compute_section_statistics, export_section_to_csv
+    compute_section_statistics, export_section_to_csv,
 )
 
 
@@ -100,6 +100,7 @@ class AppState:
             'original': True,
             'vmin': 0.0,
             'vmax': 0.0,
+            'p_size': 10,
             'global_scale': True,
             'per_frame': False,
             'jpg_dpi': 120,
@@ -672,6 +673,7 @@ def handle_vertical_section(state: AppState) -> None:
         
         logger.info(f"Geometry successfully parsed from: {state.geometry_path}")
 
+
     try:
         import h5py
         with h5py.File(state.hdf_path, 'r') as f:
@@ -802,6 +804,13 @@ def handle_vertical_section(state: AppState) -> None:
             except:
                 vmax = None
 
+            # Parse point size to plot in vertical section
+            try:
+                p_size_str = values['-P_SIZE-']
+                p_size = int(p_size_str)
+            except:
+                p_size = None
+
             # Load 3D data for this timestep
             data_3d = load_3d_variable_timestep(state.hdf_path, state.current_var, timestep)
             
@@ -846,7 +855,7 @@ def handle_vertical_section(state: AppState) -> None:
                 section_data, section_coord, section_depth = extract_latitudinal_section(
                     data_3d, lat_grid_local, lon_grid_local, depth_grid_local, section_value
                 )
-            
+
             # Store for export
             current_section_data = section_data
             current_section_coord = section_coord
@@ -893,7 +902,7 @@ def handle_vertical_section(state: AppState) -> None:
                 
                 fig, ax = plot_section_with_bathymetry(
                     section_data, section_coord, section_depth, bathy_section,
-                    state.current_var, section_type, colormap, vmin, vmax,
+                    state.current_var, section_type, colormap, vmin, vmax, p_size,
                     model_type=state.model_type, vertical_exaggeration=vertical_exaggeration,
                     fig=fig, ax=ax
                 )
@@ -904,7 +913,7 @@ def handle_vertical_section(state: AppState) -> None:
   
                 fig, ax = plot_vertical_section(
                     section_data, section_coord, section_depth,
-                    state.current_var, section_type, colormap, vmin, vmax,
+                    state.current_var, section_type, colormap, vmin, vmax, p_size,
                     model_type=state.model_type, vertical_exaggeration=vertical_exaggeration,
                     fig=fig, ax=ax
                 )

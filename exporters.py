@@ -147,8 +147,8 @@ def export_animation(
     lon_grid: npt.NDArray,
     output_file: str,
     settings: Dict,
-    vmin_override: float = 0.0,
     vmax_override: float = 0.0,
+    vmin_override: float = 0.0,
     on_tick: Optional[Callable[[int, int], None]] = None,
     fps: int = None
 ) -> str:
@@ -656,3 +656,4 @@ def export_as_csvs(
     
     logger.info(f"CSVs saved in: {output_dir}")
     return output_dir
+

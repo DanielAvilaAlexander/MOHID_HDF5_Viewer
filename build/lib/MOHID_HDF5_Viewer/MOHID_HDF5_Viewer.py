@@ -1384,7 +1384,7 @@ def main_event_loop():
     except:
         pass
     
-def main():
+def startInterface():
     """Application entry point"""
     # Configure stdout for better progress reporting
     try:
@@ -1402,6 +1402,4 @@ def main():
     logger.info("Application closed")
     finalize_log(log_file_handler) #DS_18/1
 
-if __name__ == "__main__":
 
-    main()

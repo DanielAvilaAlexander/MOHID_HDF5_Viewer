@@ -9,6 +9,4 @@ Requires: pillow
 Requires: ffmpeg
 Requires: rasterio
 Requires: FreeSimpleGUI
-License-File: LICENSE
-Dynamic: license-file
 Dynamic: requires

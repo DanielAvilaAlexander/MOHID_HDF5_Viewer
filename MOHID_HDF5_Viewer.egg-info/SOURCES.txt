@@ -1,5 +1,3 @@
-LICENSE
-README.md
 setup.py
 MOHID_HDF5_Viewer/MOHID_HDF5_Viewer.py
 MOHID_HDF5_Viewer/__init__.py

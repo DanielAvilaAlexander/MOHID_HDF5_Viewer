@@ -1,3 +1,2 @@
 [console_scripts]
-MOHID_HDF5 = MOHID_HDF5_Viewer:importHDF5
-MOHID_HDF5V = MOHID_HDF5_Viewer:main
+MOHID_HDF5 = MOHID_HDF5_Viewer:main
